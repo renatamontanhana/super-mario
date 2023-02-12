@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mario Game</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="game" width="640" height="480"></canvas>
+    <script>
+      var canvas = document.getElementById("game");
+      var context = canvas.getContext("2d");
+
+      // Character variables
+      var characterX = 100;
+      var characterY = 380;
+      var characterSpeed = 10;
+      var characterJump = false;
+
+      // Keyboard event listeners
+      document.addEventListener("keydown", function (event) {
+        if (event.keyCode === 37) {
+          characterX -= characterSpeed;
+        } else if (event.keyCode === 39) {
+          characterX += characterSpeed;
+        } else if (event.keyCode === 32 && !characterJump) {
+          characterJump = true;
+          var jumpHeight = 100;
+          var jumpSpeed = 10;
+          var jumpInterval = setInterval(function () {
+            if (jumpHeight <= 0) {
+              clearInterval(jumpInterval);
+              characterJump = false;
+            } else {
+              characterY -= jumpSpeed;
+              jumpHeight -= jumpSpeed;
+            }
+          }, 20);
+        }
+      });
+
+      // Main game loop
+      function gameLoop() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = "red";
+        context.fillRect(characterX, characterY, 30, 30);
+        requestAnimationFrame(gameLoop);
+      }
+
+      gameLoop();
+    </script>
+  </body>
+</html>

@@ -54,10 +54,11 @@ body {
 }
 
 .goomba {
-  position: absolute;
+  position: relative;
+  z-index: 2;
   bottom: 0px;
   width: 60px;
-  animation: goomba 2s infinite linear;
+  animation: goomba 4s infinite linear;
 }
 
 @keyframes goomba {
@@ -71,8 +72,9 @@ body {
 
 .mario {
   width: 150px;
-  position: absolute;
   bottom: 0px;
+  position: relative;
+  z-index: 2;
 }
 
 .jump {

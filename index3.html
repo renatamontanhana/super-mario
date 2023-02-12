@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+      integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/mario-jump.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Press Start 2P", cursive;
+      }
+      .container {
+        background-image: url(../img/background1.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: bottom;
+        height: 720px;
+      }
+      .game-board {
+        width: 80%;
+        height: 700px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .flex-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .title {
+        width: 500px;
+        margin: 50px;
+      }
+
+      .restart {
+        font-size: 20px;
+      }
+
+      /*.cloud {
+  margin: 50px;
+  position: absolute;
+  animation: cloud 10s infinite linear;
+}*/
+
+      @keyframes cloud {
+        from {
+          right: -80px;
+        }
+        to {
+          right: 100%;
+        }
+      }
+
+      .goomba {
+        position: relative;
+        z-index: 1;
+        bottom: 0px;
+        width: 60px;
+        animation: goomba 2s infinite linear;
+      }
+
+      @keyframes goomba {
+        from {
+          right: -80px;
+        }
+        to {
+          right: 100%;
+        }
+      }
+
+      .mario {
+        width: 150px;
+        bottom: 0px;
+
+        position: relative;
+        z-index: 1;
+      }
+
+      .jump {
+        animation: jump 500ms ease-out;
+      }
+
+      @keyframes jump {
+        0% {
+          bottom: 0;
+        }
+        40% {
+          bottom: 150px;
+        }
+        50% {
+          bottom: 150px;
+        }
+        60% {
+          bottom: 150px;
+        }
+        100% {
+          bottom: 0px;
+        }
+      }
+    </style>
+    <title>Mario - Jump</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="game-board">
+        <div class="flex-container">
+          <img src="img/title.png" class="title" />
+          <div class="restart">Restart</div>
+        </div>
+        <div>
+          <img src="img/cloud.png" class="cloud" />
+        </div>
+        <img src="img/mario.gif" class="mario" />
+        <img src="img/goomba.gif" class="goomba" />
+      </div>
+    </div>
+  </body>
+  <script src="js/mario-jump.js">
+        const mario = document.querySelector(".mario");
+    const goomba = document.querySelector(".goomba");
+
+    const jump = () => {
+      mario.classList.add("jump");
+      setTimeout(() => {
+        mario.classList.remove("jump");
+      }, 500);
+    };
+
+    const loop = setInterval(() => {
+      const goombaPosition = goomba.offsetLeft;
+      const marioPosition = +window.getComputedStyle(mario).bottom.replace("px", "");
+
+
+      if (goombaPosition <= 120 && goombaPosition > 0 && marioPosition < 10) {
+        goomba.style.animation = "none";
+        goomba.style.left = `${goombaPosition}px`;
+
+        mario.style.animation = "none";
+        mario.style.bottom = `${marioPosition}px`;
+
+        mario.src = "img/mario-dead.png";
+        mario.style.width = "70px";
+        mario.style.marginLeft = "30px";
+
+        clearInterval(loop);
+      }
+    }, 10);
+
+    document.addEventListener("keydown", jump);
+  </script>
+</html>
